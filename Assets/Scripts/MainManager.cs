@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,7 +23,7 @@ public class MainManager : MonoBehaviour
 
     private void Awake()
     {
-        highScoreName.text = "Best Score: " + NameTracker.Instance.theName + " " + NameTracker.Instance.highScore;
+        highScoreName.text = "Best Score: " + NameTracker.Instance.previousRecord + " " + NameTracker.Instance.highScore;
     }
 
     void Start()
@@ -57,6 +58,8 @@ public class MainManager : MonoBehaviour
                 Ball.transform.SetParent(null);
                 Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
             }
+
+           
         }
         else if (m_GameOver)
         {
@@ -64,6 +67,16 @@ public class MainManager : MonoBehaviour
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+#if UNITY_EDITOR
+            EditorApplication.ExitPlaymode();
+#else
+        Application.Quit();
+#endif
+
         }
     }
 
@@ -78,9 +91,12 @@ public class MainManager : MonoBehaviour
         if (m_Points > NameTracker.Instance.highScore)
         {
             NameTracker.Instance.highScore = m_Points;
+            NameTracker.Instance.previousRecord = NameTracker.Instance.theName;
         }
 
         highScoreName.text = "Best Score: " + NameTracker.Instance.theName + " " + NameTracker.Instance.highScore;
+
+        NameTracker.Instance.SaveScore();
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
