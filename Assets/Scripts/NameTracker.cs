@@ -10,6 +10,7 @@ public class NameTracker : MonoBehaviour
     public static NameTracker Instance;
     public string theName;
     public GameObject inputField;
+    public int highScore;
 
     private void Awake()
     {

@@ -19,11 +19,10 @@ public class MainManager : MonoBehaviour
     private bool m_GameOver = false;
 
     public Text highScoreName;
-    public int highScore;
 
     private void Awake()
     {
-        highScoreName.text = "Best Score: " + NameTracker.Instance.theName + " " + highScore;
+        highScoreName.text = "Best Score: " + NameTracker.Instance.theName + " " + NameTracker.Instance.highScore;
     }
 
     void Start()
@@ -76,11 +75,12 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
-        if (m_Points > highScore)
+        if (m_Points > NameTracker.Instance.highScore)
         {
-            highScore = m_Points;
+            NameTracker.Instance.highScore = m_Points;
         }
-        highScoreName.text = "Best Score: " + NameTracker.Instance.theName + " " + highScore;
+
+        highScoreName.text = "Best Score: " + NameTracker.Instance.theName + " " + NameTracker.Instance.highScore;
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
