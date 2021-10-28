@@ -18,8 +18,14 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
-    
-    // Start is called before the first frame update
+    public Text highScoreName;
+    public int highScore;
+
+    private void Awake()
+    {
+        highScoreName.text = "Best Score: " + NameTracker.Instance.theName + " " + highScore;
+    }
+
     void Start()
     {
         const float step = 0.6f;
@@ -70,6 +76,11 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
+        if (m_Points > highScore)
+        {
+            highScore = m_Points;
+        }
+        highScoreName.text = "Best Score: " + NameTracker.Instance.theName + " " + highScore;
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
